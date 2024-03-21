@@ -6,8 +6,8 @@ services:
     image: "traefik:v2.11"
     container_name: traefik
     command:
-      - "--log.level=DEBUG"
-      - "--api.insecure=true"
+      # - "--log.level=DEBUG"
+      # - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
@@ -20,13 +20,13 @@ services:
       - "--certificatesresolvers.selfsigned.acme.email=domainadmin@birklehof.de"
       - "--certificatesresolvers.selfsigned.acme.storage=/letsencrypt/acme.json"
     extra_hosts:
-      - "letsencrypt.org:18.192.94.96"
+      - "letsencrypt.org:172.65.46.172" # TODO, connect to internet to avoid static ip addresses (which in this case also don't work anyways)
       - "traefik.io:104.26.2.101"
     ports:
       - "80:80"
       - "443:443"
       # The Web UI (enabled by --api.insecure=true)
-      - "8080:8080"
+      # - "8080:8080"
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
