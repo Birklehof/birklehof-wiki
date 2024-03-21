@@ -1,5 +1,11 @@
 # Birklehof-Wiki
 
+## Clone repo
+
+```bash
+git clone git@github.com:Birklehof/birklehof-wiki.git --recurse-submodules
+```
+
 ## Start Docker Stack
 
 ```bash
