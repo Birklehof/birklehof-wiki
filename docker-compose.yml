@@ -40,8 +40,6 @@ services:
       - .env
     extra_hosts:
       - "smtp.gmail.com:108.177.15.109"
-    ports:
-      - "8000:80"
     volumes:
       # Volume for images uploaded to the wiki
       - images:/var/www/html/images
