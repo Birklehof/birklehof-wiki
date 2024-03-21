@@ -1,0 +1,6 @@
+[submodule "extensions/MP3MediaHandler"]
+	path = extensions/MP3MediaHandler
+	url = https://gerrit.wikimedia.org/r/mediawiki/extensions/MP3MediaHandler
+[submodule "extensions/ConfirmAccount"]
+	path = extensions/ConfirmAccount
+	url = https://gerrit.wikimedia.org/r/mediawiki/extensions/ConfirmAccount
