@@ -127,10 +127,10 @@ $wgDiff3 = "/usr/bin/diff3";
 $wgGroupPermissions['*']['createaccount'] = false;
 $wgGroupPermissions['*']['edit'] = false;
 
-## Default skin
+## Set default skin
 $wgDefaultSkin = "vector";
 
-# Enabled skins.
+# Enabled skins
 wfLoadSkin('MinervaNeue');
 wfLoadSkin('MonoBook');
 wfLoadSkin('Timeless');
@@ -143,18 +143,30 @@ wfLoadExtension('PdfHandler');
 wfLoadExtension('Poem');
 wfLoadExtension('WikiEditor');
 wfLoadExtension('MP3MediaHandler');
+wfLoadExtension('ConfirmAccount');
+wfLoadExtension('TemplateStyles');
+wfLoadExtension( 'Scribunto' );
+$wgScribuntoDefaultEngine = 'luastandalone';
+wfLoadExtension( 'TemplateStyles' );
+wfLoadExtension( 'ParserFunctions' );
+wfLoadExtension( 'InputBox' );
 
+# SMTP Settings
 $wgSMTP = [
-    'host' => 'ssl://smtp.gmail.com',  // hostname of the email server
-    'IDHost' => 'wiki.birklehof.de',
-    'port' => 465,
-    'username' => 'pauljustus279@gmail.com', // user of the email account
-    'password' => 'urvwbpozaxusplnf',  // app password of the email account
-    'auth' => true
+    'host'     => getenv('SMTP_HOST', true) ?: getenv('SMTP_HOST'),
+    'IDHost'   => getenv('SMTP_ID_HOST', true) ?: getenv('SMTP_ID_HOST'),
+    'port'     => getenv('SMTP_PORT', true) ?: getenv('SMTP_PORT'),
+    'auth'     => getenv('SMTP_AUTH', true) ?: getenv('SMTP_AUTH'),
+    'username' => getenv('SMTP_USER', true) ?: getenv('SMTP_USER'),
+    'password' => getenv('SMTP_PASSWORD', true) ?: getenv('SMTP_PASSWORD')
 ];
 
-wfLoadExtension('ConfirmAccount');
+# Confirm Account Extension Settings
 $wgGroupPermissions['*']['createaccount'] = false; // REQUIRED to enforce account requests via this extension
 $wgConfirmAccountContact = "birklehof@paulmaier.online";
 
-$wgMaxUploadSize = 20000000;
+# Upload Settings
+$wgMaxUploadSize = 20971520; # Set max upload size to 20 MB
+# $wgFileExtensions[] = 'pdf'; # Adds PDF as uploadable file extension
+$wgFileExtensions[] = 'wav'; # Adds WAV as uploadable file extension
+$wgFileExtensions[] = 'ogg'; # Adds OGG as uploadable file extension

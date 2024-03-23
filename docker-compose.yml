@@ -3,8 +3,8 @@
 version: "3"
 services:
   traefik:
-    image: "traefik:v2.11"
     container_name: traefik
+    image: "traefik:v2.11"
     command:
       # - "--log.level=DEBUG"
       # - "--api.insecure=true"
@@ -19,9 +19,6 @@ services:
       - "--certificatesresolvers.selfsigned.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.selfsigned.acme.email=domainadmin@birklehof.de"
       - "--certificatesresolvers.selfsigned.acme.storage=/letsencrypt/acme.json"
-    extra_hosts:
-      - "letsencrypt.org:172.65.46.172" # TODO, connect to internet to avoid static ip addresses (which in this case also don't work anyways)
-      - "traefik.io:104.26.2.101"
     ports:
       - "80:80"
       - "443:443"
@@ -32,14 +29,12 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
   mediawiki:
     container_name: mediawiki
-    image: mediawiki
+    image: mediawiki:1.41.0
     restart: always
     links:
       - database
     env_file:
       - .env
-    extra_hosts:
-      - "smtp.gmail.com:108.177.15.109"
     volumes:
       # Volume for images uploaded to the wiki
       - images:/var/www/html/images
@@ -53,6 +48,7 @@ services:
       # Extension code for the wiki
       - ./extensions/MP3MediaHandler:/var/www/html/extensions/MP3MediaHandler
       - ./extensions/ConfirmAccount:/var/www/html/extensions/ConfirmAccount
+      - ./extensions/TemplateStyles-REL1_41-ce8c0f5/TemplateStyles:/var/www/html/extensions/TemplateStyles
       # PHP config
       - ./config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
     labels:
@@ -63,7 +59,7 @@ services:
       - traefik.http.routers.mediawiki.tls.certresolver=selfsigned
   database:
     container_name: db
-    image: mariadb
+    image: mariadb:lts
     restart: always
     environment:
       # @see https://phabricator.wikimedia.org/source/mediawiki/browse/master/includes/DefaultSettings.php
