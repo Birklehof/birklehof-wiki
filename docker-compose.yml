@@ -78,7 +78,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - ./backups/db:/opt/mysql/backup
+      - ./backups/database:/opt/mysql/backup
     command: crond -f -d 8
     restart: always
 

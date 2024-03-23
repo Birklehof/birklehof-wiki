@@ -16,7 +16,7 @@ docker compose -f docker-compose.yml up
 
 ```bash
 php maintenance/upgrade.php
-php maintenance/update.php
+php maintenance/update.php --quick
 ```
 
 ## Optional config
