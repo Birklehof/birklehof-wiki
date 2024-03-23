@@ -16,8 +16,9 @@ docker compose -f docker-compose.yml up
 
 ```bash
 php maintenance/upgrade.php
+php maintenance/update.php
 ```
 
 ## Optional config
 - Paste `extras/common.css` in `http://your_wiki/wiki/index.php?title=MediaWiki:Common.css&action=edit`
-- Import `infobox-templates.xml` in `http://your_wiki/wiki/index.php/Special:Import`
+- Import all xml files from `extras/templates` in `http://your_wiki/wiki/index.php/Special:Import`

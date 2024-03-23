@@ -170,3 +170,5 @@ $wgMaxUploadSize = 20971520; # Set max upload size to 20 MB
 # $wgFileExtensions[] = 'pdf'; # Adds PDF as uploadable file extension
 $wgFileExtensions[] = 'wav'; # Adds WAV as uploadable file extension
 $wgFileExtensions[] = 'ogg'; # Adds OGG as uploadable file extension
+
+# $wgShowExceptionDetails = true; # Set to true for debugging
