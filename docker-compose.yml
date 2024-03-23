@@ -39,18 +39,18 @@ services:
       # Volume for images uploaded to the wiki
       - images:/var/www/html/images
       # LoacalSettings.php to configure the wiki
-      - ./config/LocalSettings.php:/var/www/html/LocalSettings.php
+      - ./mediawiki/config/LocalSettings.php:/var/www/html/LocalSettings.php
       # Logo for the wiki
-      - ./config/logo.svg:/var/www/html/resources/assets/logo.svg
-      # Custom code to load config from LoaclSettings.php
-      - ./mediawiki-custom/CustomCliInstaller.php:/var/www/html/includes/installer/CustomCliInstaller.php
-      - ./mediawiki-custom/upgrade.php:/var/www/html/maintenance/upgrade.php
+      - ./mediawiki/config/logo.svg:/var/www/html/resources/assets/logo.svg
       # Extension code for the wiki
-      - ./extensions/MP3MediaHandler:/var/www/html/extensions/MP3MediaHandler
-      - ./extensions/ConfirmAccount:/var/www/html/extensions/ConfirmAccount
-      - ./extensions/TemplateStyles-REL1_41-ce8c0f5/TemplateStyles:/var/www/html/extensions/TemplateStyles
+      - ./mediawiki/extensions/MP3MediaHandler:/var/www/html/extensions/MP3MediaHandler
+      - ./mediawiki/extensions/ConfirmAccount:/var/www/html/extensions/ConfirmAccount
+      - ./mediawiki/extensions/TemplateStyles-REL1_41-ce8c0f5/TemplateStyles:/var/www/html/extensions/TemplateStyles
+      # Custom code to load config from LoaclSettings.php
+      - ./mediawiki/custom/CustomCliInstaller.php:/var/www/html/includes/installer/CustomCliInstaller.php
+      - ./mediawiki/custom/upgrade.php:/var/www/html/maintenance/upgrade.php
       # PHP config
-      - ./config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
+      - ./mediawiki/config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
     labels:
       - traefik.enable=true
       - traefik.http.routers.mediawiki.rule=Host(`${DOMAIN}`)
@@ -69,6 +69,18 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
     volumes:
       - db:/var/lib/mysql
+  database-backup:
+    container_name: db-backup
+    build: ./db-backup
+    environment:
+      MYSQL_CONTAINER_NAME: db
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./backups/db:/opt/mysql/backup
+    command: crond -f -d 8
+    restart: always
 
 volumes:
   images:
