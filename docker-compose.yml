@@ -36,8 +36,8 @@ services:
     env_file:
       - .env
     volumes:
-      # Volume for images uploaded to the wiki
-      - images:/var/www/html/images
+      # Volume for images (and other files) uploaded to the wiki
+      - uploads:/var/www/html/images
       # LoacalSettings.php to configure the wiki
       - ./mediawiki/config/LocalSettings.php:/var/www/html/LocalSettings.php
       # Logo for the wiki
@@ -69,19 +69,21 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
     volumes:
       - db:/var/lib/mysql
-  database-backup:
-    container_name: db-backup
-    build: ./db-backup
+  backup:
+    container_name: backup
+    build: ./backup
     environment:
       MYSQL_CONTAINER_NAME: db
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
+      - uploads:/uploads:ro
       - ./backups/database:/opt/mysql/backup
+      - ./backups/uploads:/opt/mediawiki/backup
     command: crond -f -d 8
     restart: always
 
 volumes:
-  images:
+  uploads:
   db:
