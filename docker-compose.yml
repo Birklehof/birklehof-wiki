@@ -42,6 +42,7 @@ services:
       - ./mediawiki/config/LocalSettings.php:/var/www/html/LocalSettings.php
       # Logo for the wiki
       - ./mediawiki/config/logo.svg:/var/www/html/resources/assets/logo.svg
+      - ./mediawiki/config/favicon.png:/var/www/html/resources/assets/favicon.png
       # Extension code for the wiki
       - ./mediawiki/extensions/MP3MediaHandler:/var/www/html/extensions/MP3MediaHandler
       - ./mediawiki/extensions/ConfirmAccount:/var/www/html/extensions/ConfirmAccount
