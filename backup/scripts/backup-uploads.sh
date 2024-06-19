@@ -1,7 +1,7 @@
 #!/bin/sh
 
 BACKUP_FOLDER=/opt/mediawiki/backup
-NOW=$(date '+%d')
+NOW=$(date '+%Y-%m-%d')
 
 GZIP=$(which gzip)
 
