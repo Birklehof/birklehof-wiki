@@ -7,15 +7,15 @@ namespace MediaWiki\Extension\TemplateStyles;
  * @license GPL-2.0-or-later
  */
 
-use Config;
 use ContentHandler;
 use ExtensionRegistry;
-use Html;
 use InvalidArgumentException;
 use MapCacheLRU;
+use MediaWiki\Config\Config;
 use MediaWiki\Extension\TemplateStyles\Hooks\HookRunner;
 use MediaWiki\Hook\ParserClearStateHook;
 use MediaWiki\Hook\ParserFirstCallInitHook;
+use MediaWiki\Html\Html;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\Hook\ContentHandlerDefaultModelForHook;
 use MediaWiki\Revision\SlotRecord;
@@ -242,22 +242,6 @@ class Hooks implements
 	}
 
 	/**
-	 * Edit our CSS content model like core's CSS
-	 * @param Title $title Title being edited
-	 * @param string &$lang CodeEditor language to use
-	 * @param string $model Content model
-	 * @param string $format Content format
-	 * @return bool
-	 */
-	public static function onCodeEditorGetPageLanguage( $title, &$lang, $model, $format ) {
-		if ( $model === 'sanitized-css' && self::getConfig()->get( 'TemplateStylesUseCodeEditor' ) ) {
-			$lang = 'css';
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Clear our cache when the parser is reset
 	 * @param Parser $parser
 	 */
@@ -297,7 +281,7 @@ class Hooks implements
 		// or the like, though, because stuff like substing and Parsoid would
 		// wind up wanting to make that relative to the wrong page.
 		$title = Title::newFromText( $params['src'], $config->get( 'TemplateStylesDefaultNamespace' ) );
-		if ( !$title ) {
+		if ( !$title || $title->isExternal() ) {
 			return self::formatTagError( $parser, [ 'templatestyles-invalid-src' ] );
 		}
 

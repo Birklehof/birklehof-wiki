@@ -13,9 +13,9 @@ use CSSJanus;
 use MediaWiki\Content\Renderer\ContentParseParams;
 use MediaWiki\Content\ValidationParams;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Parser\ParserOutput;
+use MediaWiki\Status\Status;
 use Message;
-use ParserOutput;
-use Status;
 use StatusValue;
 use Wikimedia\CSS\Parser\Parser as CSSParser;
 use Wikimedia\CSS\Util as CSSUtil;
@@ -76,7 +76,7 @@ class TemplateStylesContentHandler extends CodeContentHandler {
 		}
 
 		$output->clearWrapperDivClass();
-		$output->setText( $html );
+		$output->setRawText( $html );
 
 		$status = $this->sanitize( $content, [ 'novalue' => true, 'class' => $parserOptions->getWrapOutputClass() ] );
 		if ( $status->getErrors() ) {
