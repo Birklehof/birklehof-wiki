@@ -1,6 +1,5 @@
 # MediaWiki with MariaDB
 
-version: "3"
 services:
   traefik:
     container_name: traefik
